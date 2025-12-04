@@ -1,1 +1,0 @@
-Badminton Bracket Generator with upgraded UI.
