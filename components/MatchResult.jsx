@@ -1,10 +1,24 @@
-export default function MatchResult({ pairs }) {
+"use client";
+
+export default function MatchResult({ matches }) {
+  if (!matches || matches.length === 0) return null;
+
   return (
-    <div className="mt-6">
-      {pairs.length > 0 && <h2 className="text-xl font-semibold mb-2">Hasil Pertandingan</h2>}
-      {pairs.map((p, i) => (
-        <div key={i} className="border p-3 rounded-xl shadow-sm bg-gray-50 mt-2">
-          {p.a} vs {p.b}
+    <div style={{ marginTop: "30px" }}>
+      <h3>Hasil Generate</h3>
+
+      {matches.map((m, idx) => (
+        <div
+          key={idx}
+          style={{
+            padding: "10px 15px",
+            border: "1px solid #ddd",
+            borderRadius: "8px",
+            marginBottom: "10px",
+          }}
+        >
+          <strong>Match {idx + 1}</strong> <br />
+          {m.team1} VS {m.team2}
         </div>
       ))}
     </div>
