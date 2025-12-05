@@ -1,12 +1,7 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { Shuffle, Users, Trash2, Trophy, Sparkles, CheckCircle, Clock, Save, XCircle } from 'lucide-react';
 
-// --- Firebase Imports ---
-import { initializeApp } from 'firebase/app';
-import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from 'firebase/auth';
-import { 
-  getFirestore, doc, setDoc, onSnapshot, collection, query, limit, orderBy 
-} from 'firebase/firestore';
+
 
 
 // --- Inisialisasi Firebase dan Global Variables ---
