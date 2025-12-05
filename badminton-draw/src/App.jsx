@@ -242,7 +242,7 @@ export default function App() {
     // Memastikan Auth sudah siap dan userId sudah ditetapkan
     if (!isAuthReady || !db || !userId) {
         if (isAuthReady) {
-            console.warn("Firestore listener ditunda: Auth sudah siap, tetapi userId belum ditetapkan (atau null).");
+          console.warn("Firestore listener ditunda: Auth sudah siap, tetapi userId belum ditetapkan (atau null).");
         }
         return;
     }
@@ -388,16 +388,16 @@ export default function App() {
   
   const startNextRound = () => {
       if (roundWinners.length < 2) {
-          alert('Minimal harus ada 2 pemenang untuk melanjutkan ronde!');
-          return;
+        alert('Minimal harus ada 2 pemenang untuk melanjutkan ronde!');
+        return;
       }
       
       const newMatches = generateMatches(roundWinners, currentRound + 1);
       
       if (newMatches.length > 0) {
-          setMatches(newMatches);
-          setCurrentRound(prev => prev + 1);
-          setRoundWinners([]);
+        setMatches(newMatches);
+        setCurrentRound(prev => prev + 1);
+        setRoundWinners([]);
       }
       // Jika newMatches kosong, Juara sudah diumumkan dan disimpan di generateMatches
   };
