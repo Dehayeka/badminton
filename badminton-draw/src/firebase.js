@@ -31,12 +31,14 @@ if (firebaseConfig.projectId) {
     app = initializeApp(firebaseConfig);
     db = getFirestore(app);
     auth = getAuth(app);
-    // getAnalytics diinisialisasi hanya jika diperlukan.
-    // Jika tidak ada error index/build, Anda bisa biarkan ini, atau pindahkan ke useEffect jika Anda tidak yakin
+    
     try {
-      analytics = getAnalytics(app);
+      // Pindahkan inisialisasi analytics ke dalam pengecekan browser
+      if (typeof window !== 'undefined') { 
+          analytics = getAnalytics(app);
+      }
     } catch (e) {
-      console.warn("Analytics failed to initialize. Only runs on browser environment.", e);
+      console.warn("Analytics failed to initialize. Skipping.", e);
     }
 }
 
