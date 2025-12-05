@@ -175,7 +175,7 @@ export default function App() {
 
   // --- Firebase Setup and History Listener ---
   useEffect(() => {
-    // Pastikan db dan auth sudah terinisialisasi
+    // Pastikan db dan auth sudah terinisialisasi
     if (!auth || !db) return;
 
     // 1. Authentication
