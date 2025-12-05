@@ -239,7 +239,13 @@ export default function App() {
 
   // 3. History Listener (Runs after Auth is ready)
   useEffect(() => {
-    if (!isAuthReady || !db) return;
+    // Memastikan Auth sudah siap dan userId sudah ditetapkan
+    if (!isAuthReady || !db || !userId) {
+        if (isAuthReady) {
+            console.warn("Firestore listener ditunda: Auth sudah siap, tetapi userId belum ditetapkan (atau null).");
+        }
+        return;
+    }
 
     console.log("Attaching Firestore listener...");
     
@@ -268,7 +274,7 @@ export default function App() {
     });
 
     return () => unsubscribeHistory();
-  }, [isAuthReady]);
+  }, [isAuthReady, userId]); // Dependensi: isAuthReady dan userId
 
 
   // --- Game Logic Functions ---
@@ -296,6 +302,8 @@ export default function App() {
   const saveChampionToHistory = useCallback(async (championName, totalRounds, finalMatches) => {
     if (!db || !userId) {
         console.error("Database atau User tidak siap.");
+        // Beri alert eksplisit kepada user jika izin ditolak
+        alert("Gagal menyimpan riwayat: Izin database tidak cukup atau koneksi belum siap. Pastikan Aturan Keamanan Firebase sudah di-PUBLISH.");
         return;
     }
     
@@ -317,6 +325,7 @@ export default function App() {
         
     } catch (e) {
         console.error("Error menyimpan riwayat: ", e);
+        alert(`Gagal menyimpan riwayat: ${e.message}. Pastikan Aturan Keamanan Firebase sudah benar.`);
     }
   }, [players, userId]); // Dependencies: players dan userId
 
@@ -631,7 +640,7 @@ export default function App() {
       </div>
 
       {/* Custom Scrollbar Style */}
-      <style jsx>{`
+      <style>{`
         .custom-scrollbar::-webkit-scrollbar {
           width: 8px;
         }
@@ -661,6 +670,5 @@ export default function App() {
         }
       `}</style>
     </div>
-    
   );
 }
