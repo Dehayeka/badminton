@@ -6,6 +6,7 @@ import { getAnalytics } from "firebase/analytics";
 import { getAuth } from 'firebase/auth'; 
 import { getFirestore } from 'firebase/firestore'; 
 
+// KONFIGURASI FIREBASE ANDA
 const userFirebaseConfig = {
   apiKey: "AIzaSyDKT0Xr_aw5_e_TC_Pxd3YyYLR0OapiOFE",
   authDomain: "badmintondrawapp.firebaseapp.com",
@@ -21,6 +22,12 @@ const __firebase_config = typeof __firebase_config !== 'undefined' ? JSON.parse(
 const firebaseConfig = __firebase_config.projectId ? __firebase_config : userFirebaseConfig;
 
 
+// --- Penyiapan Global Variables (Dipindahkan ke sini) ---
+// Lokasi penyimpanan (Public data) - DEKLARASI & EKSPOR BARU
+const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+const HISTORY_COLLECTION_PATH = `/artifacts/${appId}/public/data/matchHistory`;
+
+
 // --- Inisialisasi ---
 let app = null;
 let db = null;
@@ -28,20 +35,20 @@ let auth = null;
 let analytics = null;
 
 if (firebaseConfig.projectId) { 
-    app = initializeApp(firebaseConfig);
-    db = getFirestore(app);
-    auth = getAuth(app);
-    
-    try {
-      // Pindahkan inisialisasi analytics ke dalam pengecekan browser
-      if (typeof window !== 'undefined') { 
-          analytics = getAnalytics(app);
-      }
-    } catch (e) {
-      console.warn("Analytics failed to initialize. Skipping.", e);
-    }
+    app = initializeApp(firebaseConfig);
+    db = getFirestore(app);
+    auth = getAuth(app);
+    
+    try {
+      // Pengecekan klien untuk menghindari crash di Vercel Build/SSR
+      if (typeof window !== 'undefined') { 
+          analytics = getAnalytics(app);
+      }
+    } catch (e) {
+      console.warn("Analytics failed to initialize. Skipping.", e);
+    }
 }
 
 
-// Ekspor semua layanan yang akan digunakan di komponen React
-export { app, db, auth, analytics };
+// Ekspor semua layanan, termasuk HISTORY_COLLECTION_PATH
+export { app, db, auth, analytics, HISTORY_COLLECTION_PATH };
